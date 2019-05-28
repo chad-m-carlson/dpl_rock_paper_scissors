@@ -1,55 +1,36 @@
 var userScore = 0;
 var computerScore = 0;
-var userWins = 0;
-var computerWins = 0;
+var totalUserWins = 0;
+var totalComputerWins = 0;
 var numberOfDraws = 0;
-var buttons = document.querySelectorAll('.gameButton');
-var playButton = document.getElementById('play');
-var restart = document.querySelector('#restart');
-var log = document.querySelector('#log');
-var score = document.querySelector('#score');
-var plays = document.querySelector('#plays');
+var buttons = document.getElementsByClassName('gameButton');
+var log = document.getElementById('log');
+var score = document.getElementById('score');
+var plays = document.getElementById('plays');
 var computer = document.getElementById('computer');
 var user = document.getElementById('user');
 var drawGame = document.getElementById('draw');
+var playButton = document.getElementById('play');
 
-buttons.forEach((gamebutton) => gamebutton.disabled = true);
+for(var i = 0; i < buttons.length; i++){
+    buttons[i].disabled = true;
+};
 
-playButton.addEventListener('click', (e) => {
+playButton.addEventListener('click', function() {
     if (document.getElementById('rounds').value == '' || document.getElementById('games').value == '') alert('Please enter number of games and rounds');
-    else {
-        buttons.forEach((gamebutton) => gamebutton.disabled = false);
-        hideInputs();
+    else { 
+        enableButton();
+        hideBeginningInputs();
     }
 });
-restart.addEventListener('click', (e) => {
-    restartClicked();
-});
-buttons.forEach((gameButton) => {
-    gameButton.addEventListener('click', (e) => {
-        playerClicked = e.path[0].id;
+
+document.getElementById('restart').addEventListener('click', restartClicked);
+
+for(var i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener('click', function() {
+        playerClicked = this.id;
         playRound(playerClicked);
-    });
-});
-
-function hideInputs() {
-    var tally = document.querySelector('.tally');
-    var start = document.querySelector('.start');
-    start.classList.toggle('hide');
-    tally.classList.toggle('hide');
-}
-
-function restartClicked() {
-    buttons.forEach((gamebutton) => gamebutton.disabled = true);
-    hideInputs();
-    resetGame();
-    removeLogItems();
-    user.removeChild(user.firstChild);
-    computer.removeChild(computer.firstChild);
-    drawGame.removeChild(draw.firstChild);
-    userWins = 0;
-    computerWins = 0;
-    numberOfDraws = 0;
+    })
 }
 
 function computerPlay() {
@@ -58,33 +39,63 @@ function computerPlay() {
 }
 
 function playRound(playerSelection) {
-    numberOfGames = document.getElementById('games').value;
     var computerSelection = computerPlay();
     if ((playerSelection == computerSelection)) {
-        gameResults('draw');
+        writeGameResults('draw');
     } else if (playerSelection == 'rock' && computerSelection == 'paper' || playerSelection == 'scissors' && computerSelection == 'rock' || playerSelection == 'paper' && computerSelection == 'scissors') {
         computerScore++;
-        gameResults('computer');
+        writeGameResults('computer');
     } else if (playerSelection == 'rock' && computerSelection == 'scissors' || playerSelection == 'paper' && computerSelection == 'rock' || playerSelection == 'scissors' && computerSelection == 'paper') {
         userScore++;
-        gameResults('player');
+        writeGameResults('player');
     }
-    compPlay();
-    checkResults();
+    writeComputerChoice();
+    isRoundOver();
 }
 
-function checkResults() {
+function writeGameResults(winner) {
+    if (winner == 'draw') {
+        var dd = document.createElement('dd');
+        dd.innerHTML = `It's a tie, you both played ${playerClicked}.`;
+        log.appendChild(dd);
+    }
+    if (winner == 'computer') {
+        var dd = document.createElement('dd');
+        dd.style.color = "red"
+        dd.innerHTML = `You Lose! ${computerChoice} beats ${playerClicked}.`;
+        log.appendChild(dd);
+    }
+    if (winner == 'player') {
+        var dd = document.createElement('dd');
+        dd.style.color = "green"
+        dd.innerHTML = `You win! ${playerClicked} beats ${computerChoice}.`;
+        log.appendChild(dd);
+    }
+}
+
+function writeComputerChoice() {
+    var dd = document.createElement('dd');
+    var t = document.createTextNode('Computer Played ' + computerChoice + '.');
+    dd.appendChild(t);
+    plays.appendChild(dd);
+}
+
+function isRoundOver() {
+    //IF THE NUMBER OF TOTAL WINS = THE NUMBER OF GAMES ENTERED IN THE BEGINNING, THE ROUND IS OVER AND RESULTS ARE POSTED. OTHERWISE, NOTHING HAPPENS AND GAME COUNTINUES
+    var numberOfGames = document.getElementById('games').value;
     if (userScore + computerScore == numberOfGames) {
         if (userScore > computerScore) {
             var dd = document.createElement('dd');
-            dd.innerHTML = `You win! ${userScore} to ${computerScore}.`;
+            dd.style.color = "green"
+            dd.innerHTML = 'You win! ' + userScore + ' to ' + computerScore + ' .';
             score.appendChild(dd);
-            userWins++;
+            totalUserWins++;
         } else if (computerScore > userScore) {
             var dd = document.createElement('dd');
-            dd.innerHTML = `You lose! ${computerScore} to ${userScore}`;
+            dd.style.color = "red"
+            dd.innerHTML = 'You lose! ' + computerScore + ' to ' + userScore + ' .';
             score.appendChild(dd);
-            computerWins++;
+            totalComputerWins++;
         } else {
             var dd = document.createElement('dd');
             dd.innerHTML = `It's a tie! Please play again!`;
@@ -92,50 +103,62 @@ function checkResults() {
             numberOfDraws++;
         }
         resetGame();
-        disableButton();
+        disableGameButtons();
         writeScores();
         setTimeout(function () {
-            rounds();
+        determineRoundWinner();
         }, 2000);
     }
 }
 
-function writeScores() {
-    computer.innerHTML = `Computer Score: ${computerWins}`;
-    user.innerHTML = `Player Score: ${userWins}`;
-    drawGame.innerHTML = `Draw Game: ${numberOfDraws}`;
+
+function hideBeginningInputs() {
+    var tally = document.getElementById('tally');
+    var start = document.getElementById('start');
+    start.classList.toggle('hide');
+    tally.classList.toggle('hide');
 }
 
-function rounds() {
+
+function writeScores() {
+    computer.innerHTML = 'Computer Score: ' + totalComputerWins;
+    user.innerHTML = 'Player Score: ' + totalUserWins;
+    drawGame.innerHTML = 'Draw Game: ' + numberOfDraws;
+}
+
+function determineRoundWinner() {
+    //CHECKS TO SEE IF THE NUMBER OF ROUNDS WON = NUMBER OF ROUNDS ENTERED. IF SO, AN ALERT IS GENERATED AND GAME IS OVER.
     var numberOfRounds = document.getElementById('rounds').value;
-    if (computerWins + userWins == numberOfRounds) {
-        if (computerWins > userWins) {
+    if (totalComputerWins + totalUserWins == numberOfRounds) {
+        if (totalComputerWins > totalUserWins) {
             alert('Game Over! Computer wins the game');
-        } else if (computerWins < userWins) {
+        } else if (totalComputerWins < totalUserWins) {
             alert('Congratulations! You Win the Game');
-        } else if (computerWins === userWins) {
+        } else if (totalComputerWins === totalUserWins) {
             alert('It\'s a tie');
         }
         resetRounds();
-        hideInputs();
+        hideBeginningInputs();
     }
 }
 
-function disableButton() {
-    buttons.forEach((gameButton) => gameButton.disabled = true);
+function disableGameButtons() {
+    for(var i = 0; i < buttons.length; i++){
+        buttons[i].disabled = true;
+    };
     setTimeout(function () {
         enableButton();
-        removeLogItems();
+        removeRoundResults();
     }, 3000);
 }
 
 function enableButton() {
-    buttons.forEach((gameButton) => {
-        gameButton.disabled = false;
-    });
+    for(var i = 0; i < buttons.length; i++){
+        buttons[i].disabled = false;
+    };
 }
 
-function removeLogItems() {
+function removeRoundResults() {
     while (plays.hasChildNodes()) {
         plays.removeChild(plays.firstChild);
     }
@@ -147,29 +170,21 @@ function removeLogItems() {
     }
 }
 
-function gameResults(winner) {
-    if (winner == 'draw') {
-        var dd = document.createElement('dd');
-        dd.innerHTML = `It's a tie, you both played ${playerClicked}.`;
-        log.appendChild(dd);
-    }
-    if (winner == 'computer') {
-        var dd = document.createElement('dd');
-        dd.innerHTML = `You Lose! ${computerChoice} beats ${playerClicked}.`;
-        log.appendChild(dd);
-    }
-    if (winner == 'player') {
-        var dd = document.createElement('dd');
-        dd.innerHTML = `You win! ${playerClicked} beats ${computerChoice}.`;
-        log.appendChild(dd);
-    }
-}
 
-function compPlay() {
-    var dd = document.createElement('dd');
-    var t = document.createTextNode(`Computer played ${computerChoice}.`);
-    dd.appendChild(t);
-    plays.appendChild(dd);
+function restartClicked() {
+    for(var i = 0; i < buttons.length; i++){
+        buttons[i].disabled = true;
+    };
+    hideBeginningInputs();
+    resetGame();
+    removeRoundResults();
+    resetRounds()
+    user.removeChild(user.firstChild);
+    computer.removeChild(computer.firstChild);
+    drawGame.removeChild(draw.firstChild);
+    // totalUserWins = 0;
+    // totalComputerWins = 0;
+    // numberOfDraws = 0;
 }
 
 function resetGame() {
@@ -178,8 +193,8 @@ function resetGame() {
 }
 
 function resetRounds() {
-    userWins = 0;
-    computerWins = 0;
+    totalUserWins = 0;
+    totalComputerWins = 0;
     numberOfDraws = 0;
     computer.innerHTML = '';
     user.innerHTML = '';
