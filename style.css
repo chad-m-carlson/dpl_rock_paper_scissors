@@ -2,6 +2,8 @@ body {
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
 }
 h1, h2,h3, input {
     text-align: center;
@@ -12,15 +14,28 @@ button {
     width: 67px;
     background: #c2bfbf;
     border-radius: 5px;
-    margin: 10px;
+    /* margin: 10px; */
 }
 input {
     width: 50px;
     border-radius: 5px;
 }
+
+img{
+    height: 170px;
+    width: 170px;
+}
 .hide {
     display: none !important;
 }
+
+.tally {
+    height: 210px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
 .start {
     display: flex;
     flex-direction: row;
@@ -43,10 +58,8 @@ input {
 }
 .gameButton {
     padding: 20px;
-    margin: 30px;
-    border-radius: 10px;
-    width: 300px;
-    font-size: 30px;
+    width: 170px;
+    height: 170px;
 }
 
 .numberOfRounds {
@@ -55,13 +68,10 @@ input {
 }
 
 .gameplay {
-    border: solid 1px black;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin: 10px;
-    padding: 10px;
 }
 @media (max-width: 800px) {
     .gameplay {
@@ -85,6 +95,11 @@ input {
     margin: 0 auto;
     padding: 10px;
     justify-content: space-evenly
+}
+
+#roundResults{
+    display: flex;
+    justify-content: space-around;
 }
 .resultBox {
     width: 275px;
@@ -115,10 +130,6 @@ h4{
 }
 li {
     line-height: 1.2em;
-}
-.tally {
-    height: 210px;
-    display: inline-block;
 }
 .players{
     margin: 2px 5px 0px 0px;

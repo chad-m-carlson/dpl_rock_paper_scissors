@@ -3,6 +3,9 @@ var computerScore = 0;
 var totalUserWins = 0;
 var totalComputerWins = 0;
 var numberOfDraws = 0;
+var paperIcon = 'https://goodday451999.github.io/Rock-Paper-Scissors-Neo/images/paper.png';
+var rockIcon = 'https://goodday451999.github.io/Rock-Paper-Scissors-Neo/images/stone.png';
+var scissorsIcon = 'http://chittagongit.com/images/rock-paper-scissors-icon/rock-paper-scissors-icon-5.jpg';
 var buttons = document.getElementsByClassName('gameButton');
 var log = document.getElementById('log');
 var score = document.getElementById('score');
@@ -30,11 +33,41 @@ for(var i = 0; i < buttons.length; i++){
     buttons[i].addEventListener('click', function() {
         playerClicked = this.id;
         playRound(playerClicked);
+        var youPlayedDiv = document.getElementById("playerChoice");
+        switch (playerClicked) {
+            case 'rock':
+                youPlayedDiv.innerHTML = `<img src=${rockIcon}></img>`;
+                break;
+            case 'paper':
+                youPlayedDiv.innerHTML = `<img src=${paperIcon}></img>`;
+                break;
+            case 'scissors':
+                youPlayedDiv.innerHTML = `<img src=${scissorsIcon}></img>`
+                break;
+            default:
+                youPlayedDiv.innerHTML = `<img></img>`;
+                break;
+        }
     })
 }
 
 function computerPlay() {
+    var computerPlayedDiv = document.getElementById('computerChoice')
     computerChoice = ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)];
+    switch (computerChoice) {
+        case 'rock':
+            computerPlayedDiv.innerHTML = `<img src=${rockIcon}></img>`;
+            break;
+        case 'paper':
+            computerPlayedDiv.innerHTML = `<img src=${paperIcon}></img>`;
+            break;
+        case 'scissors':
+            computerPlayedDiv.innerHTML = `<img src=${scissorsIcon}></img>`;
+            break;
+        default:
+            computerPlayedDiv.innerHTML = `<img></img>`;
+            break;
+    }
     return computerChoice;
 }
 
@@ -111,14 +144,12 @@ function isRoundOver() {
     }
 }
 
-
 function hideBeginningInputs() {
     var tally = document.getElementById('tally');
     var start = document.getElementById('start');
     start.classList.toggle('hide');
     tally.classList.toggle('hide');
 }
-
 
 function writeScores() {
     computer.innerHTML = 'Computer Score: ' + totalComputerWins;

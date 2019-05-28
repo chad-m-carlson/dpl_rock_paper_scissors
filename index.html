@@ -7,16 +7,39 @@
 <body>
     <h1>Rock - Paper - Scissors</h1>
     <div class="hide tally" id="tally">
-        <h2>Round Results</h2>
-        <h3 class="players" id="computer"></h3>
-        <h3 class="players" id="user"></h3>
-        <h3 class="players" id="draw"></h3>
+        <div>
+            <h2>You Played</h2>
+            <div class="icon" id="playerChoice">
+            </div>
+        </div>
+        <div class="results">
+            <div class="resultBox">
+                <h4>Computer Plays</h4>
+                <dl id="plays">
+                </dl>
+            </div>
+            <div class="resultBox">
+                <h4>Game Results</h4>
+                <dl id="log">
+                </dl>
+            </div>
+            <div class="resultBox">
+                <h4>Game Score</h4>
+                <ol id="score">
+                </ol>
+            </div>
+        </div>
+        <div>
+            <h2>Computer Played</h2>
+            <div class="icon" id="computerChoice">
+
+            </div>
+        </div>
     </div>
     <div class="start" id="start">
         <div class="entry">
             <h3>How many games per round?</h3>
             <input id="games" placeholder="games">
-            <!-- <button id="submit">Submit</button> -->
         </div>
         <div class="entry">
             <h3>How many rounds?</h3>
@@ -24,32 +47,23 @@
         </div>
     </div>
     <button id="play">Play</button>
+    <h3>Click an icon to select your play</h3>
     <div class="gameplay">
-        <button class="gameButton" id="rock">Rock</button>
-        <button class="gameButton" id="paper">Paper</button>
-        <button class="gameButton" id="scissors">Scissors</button>
+        <img class='gameButton' id="rock" src='https://goodday451999.github.io/Rock-Paper-Scissors-Neo/images/stone.png'>
+        <img class='gameButton' id="paper" src='https://goodday451999.github.io/Rock-Paper-Scissors-Neo/images/paper.png'>
+        <img class='gameButton' id="scissors" src='http://chittagongit.com/images/rock-paper-scissors-icon/rock-paper-scissors-icon-5.jpg'>
         <br>
         <br>
     </div>
     <div class='restart'>
         <button id="restart">Restart</button>
     </div>
-    <div class="results">
-        <div class="resultBox">
-            <h4>Computer Plays</h4>
-            <dl id="plays">
-            </dl>
-        </div>
-        <div class="resultBox">
-            <h4>Round Results</h4>
-            <dl id="log">
-            </dl>
-        </div>
-        <div class="resultBox">
-            <h4>Game Score</h4>
-            <ol id="score">
-            </ol>
-        </div>
+    
+    <h2>Round Results</h2>
+    <div id="roundResults">
+        <h3 class="players" id="computer"></h3>
+        <h3 class="players" id="user"></h3>
+        <h3 class="players" id="draw"></h3>
     </div>
 
 
