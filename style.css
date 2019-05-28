@@ -1,0 +1,126 @@
+body {
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+}
+h1, h2,h3, input {
+    text-align: center;
+}
+button {
+    width: 40px;
+    font-size: 12px;
+    width: 67px;
+    background: #c2bfbf;
+    border-radius: 5px;
+    margin: 10px;
+}
+input {
+    width: 50px;
+    border-radius: 5px;
+}
+.hide {
+    display: none !important;
+}
+.start {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 160px;
+}
+.entry {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+}
+#play {
+    align-self: center;
+    padding: 10px;
+    margin: 10px;
+    width: 130px;
+    font-size: 25px;
+}
+.gameButton {
+    padding: 20px;
+    margin: 30px;
+    border-radius: 10px;
+    width: 300px;
+    font-size: 30px;
+}
+
+.numberOfRounds {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.gameplay {
+    border: solid 1px black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
+}
+@media (max-width: 800px) {
+    .gameplay {
+        flex-direction: column;
+    }
+    .gameButton {
+        margin: 10px;
+        padding: 20px;
+    }
+    .results {
+        flex-direction: column !important;
+    }
+    .resultBox {
+        flex-direction: row;
+    }
+}
+.results {
+    border: 2px solid black;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    padding: 10px;
+    justify-content: space-evenly
+}
+.resultBox {
+    width: 275px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+}
+#plays{
+    list-style: square;
+}
+#log{
+    list-style: square;
+}
+#score{
+    padding: 0px;
+}
+.restart{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+h4{
+    margin-left: 40px;
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+li {
+    line-height: 1.2em;
+}
+.tally {
+    height: 210px;
+    display: inline-block;
+}
+.players{
+    margin: 2px 5px 0px 0px;
+    padding-top: 20px;
+}
