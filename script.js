@@ -6,7 +6,7 @@ var numberOfDraws = 0;
 var paperIcon = 'https://goodday451999.github.io/Rock-Paper-Scissors-Neo/images/paper.png';
 var rockIcon = 'https://goodday451999.github.io/Rock-Paper-Scissors-Neo/images/stone.png';
 var scissorsIcon = 'http://chittagongit.com/images/rock-paper-scissors-icon/rock-paper-scissors-icon-5.jpg';
-var buttons = document.getElementsByClassName('gameButton');
+var rpsButtons = document.getElementsByClassName('gameButton');
 var log = document.getElementById('log');
 var score = document.getElementById('score');
 var plays = document.getElementById('plays');
@@ -15,41 +15,39 @@ var user = document.getElementById('user');
 var drawGame = document.getElementById('draw');
 var playButton = document.getElementById('play');
 
-for(var i = 0; i < buttons.length; i++){
-    buttons[i].disabled = true;
+for(var i = 0; i < rpsButtons.length; i++){
+    rpsButtons[i].disabled = true;
 };
 
 playButton.addEventListener('click', function() {
     if (document.getElementById('rounds').value == '' || document.getElementById('games').value == '') alert('Please enter number of games and rounds');
     else { 
-        enableButton();
+        enableRPSbuttons();
         hideBeginningInputs();
     }
 });
 
 document.getElementById('restart').addEventListener('click', restartClicked);
 
-for(var i = 0; i < buttons.length; i++){
-    buttons[i].addEventListener('click', function() {
-        playerClicked = this.id;
-        playRound(playerClicked);
-        var youPlayedDiv = document.getElementById("playerChoice");
-        switch (playerClicked) {
-            case 'rock':
-                youPlayedDiv.innerHTML = `<img src=${rockIcon}></img>`;
-                break;
-            case 'paper':
-                youPlayedDiv.innerHTML = `<img src=${paperIcon}></img>`;
-                break;
-            case 'scissors':
-                youPlayedDiv.innerHTML = `<img src=${scissorsIcon}></img>`
-                break;
-            default:
-                youPlayedDiv.innerHTML = `<img></img>`;
-                break;
-        }
-    })
-}
+function rpsButtonClicked(){
+    playerClicked = this.id;
+    playRound(playerClicked);
+    var youPlayedDiv = document.getElementById("playerChoice");
+    switch (playerClicked) {
+        case 'rock':
+            youPlayedDiv.innerHTML = `<img src=${rockIcon}></img>`;
+            break;
+        case 'paper':
+            youPlayedDiv.innerHTML = `<img src=${paperIcon}></img>`;
+            break;
+        case 'scissors':
+            youPlayedDiv.innerHTML = `<img src=${scissorsIcon}></img>`
+            break;
+        default:
+            youPlayedDiv.innerHTML = `<img></img>`;
+            break;
+    }
+};
 
 function computerPlay() {
     var computerPlayedDiv = document.getElementById('computerChoice')
@@ -174,18 +172,18 @@ function determineRoundWinner() {
 }
 
 function disableGameButtons() {
-    for(var i = 0; i < buttons.length; i++){
-        buttons[i].disabled = true;
+    for(var i = 0; i < rpsButtons.length; i++){
+        rpsButtons[i].removeEventListener('click', rpsButtonClicked);
     };
     setTimeout(function () {
-        enableButton();
+        enableRPSbuttons();
         removeRoundResults();
     }, 3000);
 }
 
-function enableButton() {
-    for(var i = 0; i < buttons.length; i++){
-        buttons[i].disabled = false;
+function enableRPSbuttons() {
+    for(var i = 0; i < rpsButtons.length; i++){
+        rpsButtons[i].addEventListener('click', rpsButtonClicked);
     };
 }
 
@@ -203,19 +201,13 @@ function removeRoundResults() {
 
 
 function restartClicked() {
-    for(var i = 0; i < buttons.length; i++){
-        buttons[i].disabled = true;
+    for(var i = 0; i < rpsButtons.length; i++){
+        rpsButtons[i].removeEventListener('click', rpsButtonClicked)
     };
     hideBeginningInputs();
     resetGame();
     removeRoundResults();
     resetRounds()
-    user.removeChild(user.firstChild);
-    computer.removeChild(computer.firstChild);
-    drawGame.removeChild(draw.firstChild);
-    // totalUserWins = 0;
-    // totalComputerWins = 0;
-    // numberOfDraws = 0;
 }
 
 function resetGame() {
