@@ -147,6 +147,7 @@ function hideBeginningInputs() {
     var start = document.getElementById('start');
     start.classList.toggle('hide');
     tally.classList.toggle('hide');
+    playButton.classList.toggle('hide');
 }
 
 function writeScores() {
@@ -198,7 +199,6 @@ function removeRoundResults() {
         score.removeChild(score.firstChild);
     }
 }
-
 
 function restartClicked() {
     for(var i = 0; i < rpsButtons.length; i++){
